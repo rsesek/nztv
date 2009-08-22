@@ -26,6 +26,7 @@ switch ($argv[0])
 			Fatal("Bad show name '$argv[1]'");
 		$stmt = $database_->prepare("INSERT INTO search_params (show_id, key, value) VALUES (?, ?, ?)");
 		array_shift($argv);
+		$argv[0] = $id;
 		$stmt->execute($argv);
 	break;
 	
