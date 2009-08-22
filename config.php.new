@@ -13,5 +13,5 @@ class config
 	public static $nzb_output_dir = '/path/to/download/watcher/dir';
 	
 	// Base search URL. You probably don't want to change this.
-	public static $base_search_url = 'http://"%s":"%s"@www.newzbin.com/search'
+	public static $base_search_url = 'http://"%s":"%s"@www.newzbin.com/search';
 }
