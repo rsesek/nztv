@@ -59,3 +59,14 @@ function TokenizeTitle($title)
 	preg_match('/([0-9]+)x([0-9]+)/', $title, $matches);
 	return array(intval($matches[1]), intval($matches[2]));
 }
+
+const LOG_ERR = '! ERROR';
+const LOG_MSG = 'Message';
+const LOG_WRN = 'WARNING';
+function LogMessage($msg, $level = LOG_MSG)
+{
+	$fp = fopen('./nztv.log', 'a');
+	$date = date('Y-m-d H:i:s');
+	fwrite($fp, "[$date] $level: $msg\n");
+	fclose($fp);
+}
