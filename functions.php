@@ -47,7 +47,7 @@ function GetShowFromName($name)
 function CreateCURLHandler($url, $return = true)
 {
 	$rfp = curl_init($url);
-	curl_setopt($rfp, CURLOPT_USERPWD, config::$newzbin_user . ':' . config::$newzbin_user);
+	curl_setopt($rfp, CURLOPT_USERPWD, config::$newzbin_user . ':' . config::$newzbin_password);
 	curl_setopt($rfp, CURLOPT_RETURNTRANSFER, $return);
 	return $rfp;
 }

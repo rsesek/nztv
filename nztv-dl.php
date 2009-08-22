@@ -26,7 +26,10 @@ while ($show = $shows->fetchObject())
 		$other_eps->execute(array($show->show_id, $season, $episode));
 		// We've already downloaded this episode.
 		if ($other_eps->fetchObject())
+		{
+			echo "Already downloaded {$entry->title}";
 			continue;
+		}
 		
 		preg_match('#/post/([0-9]+)/nzb#', $nzb_url, $matches);
 		$nzb_id = $matches[1];
