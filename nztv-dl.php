@@ -35,7 +35,9 @@ while ($show = $shows->fetchObject())
 		$nzb_id = $matches[1];
 		
 		$fp = fopen(config::$nzb_output_dir . '/' . $nzb_id . '.nzb', 'w');
-		$nzb_fp = CreateCURLHandler($nzb_url, false);
+		$nzb_fp = curl_init('http://www.newzbin.com/api/dnzb/');
+		curl_setopt($nzb_fp, CURLOPT_POST, true);
+		curl_setopt($nzb_fp, CURLOPT_POSTFIELDS, 'username=' . config::$newzbin_user . '&password=' . config::$newzbin_password . '&reportid=' . $nzb_id);
 		curl_setopt($nzb_fp, CURLOPT_FILE, $fp);
 		if (!curl_exec($nzb_fp))
 		{
