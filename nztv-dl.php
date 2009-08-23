@@ -39,8 +39,8 @@ while ($show = $shows->fetchObject())
 			continue;
 		}
 		
-		
-		$fp = fopen(config::$nzb_output_dir . '/' . $nzb_id . '.nzb', 'w');
+		$file_name = config::$nzb_output_dir . '/' . $nzb_id . '_' . $entry->title . '.nzb';
+		$fp = fopen($file_name, 'w');
 		$nzb_fp = curl_init('http://www.newzbin.com/api/dnzb/');
 		curl_setopt($nzb_fp, CURLOPT_POST, true);
 		curl_setopt($nzb_fp, CURLOPT_POSTFIELDS, 'username=' . config::$newzbin_user . '&password=' . config::$newzbin_password . '&reportid=' . $nzb_id);
@@ -54,6 +54,11 @@ while ($show = $shows->fetchObject())
 		}
 		curl_close($nzb_fp);
 		fclose($fp);
+		
+		// NZB files are never less than 1k, so it's probably a dud. We'll try
+		// on a different execution run.
+		if (filesize($file_name) < 1000)
+			continue;
 		
 		// Record the download.
 		$stmt = $database_->prepare("
