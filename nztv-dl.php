@@ -58,7 +58,10 @@ while ($show = $shows->fetchObject())
 		// NZB files are never less than 1k, so it's probably a dud. We'll try
 		// on a different execution run.
 		if (filesize($file_name) < 1000)
+		{
+			LogMessage("Failed to download #$nzb_id '{$entry->title}'. Please run again.", LOG_WRN);
 			continue;
+		}
 		
 		// Record the download.
 		$stmt = $database_->prepare("
