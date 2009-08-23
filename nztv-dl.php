@@ -18,6 +18,9 @@
 
 namespace nztv;
 
+// This file is meant to be used in a cronjob. It does all the work of pulling
+// search results down and figuring out what to download.
+
 $path = dirname(__FILE__);
 chdir($path);
 require './init.php';

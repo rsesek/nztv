@@ -17,6 +17,9 @@
 
 namespace nztv;
 
+// This file imports functions and sets up the database. Standard
+// initialization stuff, ya know?
+
 require './config.php';
 require './functions.php';
 

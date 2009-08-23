@@ -18,7 +18,7 @@
 
 namespace nztv;
 
-// Bootstrapping file for the rest of NZTV.
+// Bootstrapping file for the rest of NZTV command line interface.
 
 $path = dirname(__FILE__);
 chdir($path);

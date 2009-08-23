@@ -17,6 +17,9 @@
 
 namespace nztv;
 
+// This is the heart of the command-line interface.
+// TODO(rsesek): Refactor this mess.
+
 require './init.php';
 
 switch ($argv[0])
