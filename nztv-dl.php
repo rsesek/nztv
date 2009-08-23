@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace nztv;
+
 $path = dirname(__FILE__);
 chdir($path);
 require './init.php';

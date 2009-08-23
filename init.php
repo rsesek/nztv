@@ -1,5 +1,7 @@
 <?php
 
+namespace nztv;
+
 require './config.php';
 require './functions.php';
 

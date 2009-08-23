@@ -1,5 +1,7 @@
 <?php
 
+namespace nztv;
+
 // Prints a fatal error and exits.
 function Fatal($error)
 {

@@ -1,5 +1,7 @@
 <?php
 
+namespace nztv;
+
 require './init.php';
 
 switch ($argv[0])

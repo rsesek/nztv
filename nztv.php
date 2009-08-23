@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace nztv;
+
 // Bootstrapping file for the rest of NZTV.
 
 $path = dirname(__FILE__);
