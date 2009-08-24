@@ -34,7 +34,7 @@ if (!file_exists(config::$database_path))
 	echo "Database does not exist at '" . config::$database_path . "'. Creating.\n";
 	$new_db = true;
 }
-$database_ = new PDO('sqlite:' . config::$database_path);
+$database_ = new \PDO('sqlite:' . config::$database_path);
 
 if ($new_db)
 	InitDatabase($database_);

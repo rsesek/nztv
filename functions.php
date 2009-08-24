@@ -25,7 +25,7 @@ function Fatal($error)
 }
 
 // Creates the database schema.
-function InitDatabase(PDO $db)
+function InitDatabase(\PDO $db)
 {
 	$stmt = $db->query("
 		CREATE TABLE shows (
