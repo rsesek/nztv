@@ -71,8 +71,6 @@ function CreateCURLHandler($url, $return = true)
 
 function TokenizeTitle($title)
 {
-	$season = 0;
-	$episode = 0;
 	preg_match('/([0-9]+)x([0-9]+)/', $title, $matches);
 	return array(intval($matches[1]), intval($matches[2]));
 }
