@@ -17,26 +17,12 @@
 
 namespace nztv;
 
-// This file imports functions and sets up the database. Standard
-// initialization stuff, ya know?
+interface Provider
+{
+  public /*array[Episode]*/ function SearchForShow(Show $show);
+  public /*string*/ function TokenizeTitle();
 
-require './bookeeper.php';
-require './config.php';
-require './functions.php';
-require './provider.php';
-
-// Don't need the name of the program.
-array_shift($argv);
-$argc--;
-
-// Load the database.
-$new_db = false;
-if (!file_exists(config::$database_path)) {
-  echo "Database does not exist at '" . config::$database_path . "'. Creating.\n";
-  $new_db = true;
-}
-$database_ = new \PDO('sqlite:' . config::$database_path);
-
-if ($new_db) {
-  InitDatabase($database_);
+  // Throws DownloadException.
+  public /*bool*/ function DownloadEpisode(Episode $episode,
+                                           /*string*/ $destination);
 }

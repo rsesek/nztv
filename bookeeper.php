@@ -17,26 +17,14 @@
 
 namespace nztv;
 
-// This file imports functions and sets up the database. Standard
-// initialization stuff, ya know?
+// This class keeps track of two things: (1) What we have downloaded in the
+// past, with specific references to title names and NZB-site ID. (2) A list
+// of shows to download, query parameters, and last-retrieved information.
+class Bookeeper
+{
+  public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
+  {}
 
-require './bookeeper.php';
-require './config.php';
-require './functions.php';
-require './provider.php';
-
-// Don't need the name of the program.
-array_shift($argv);
-$argc--;
-
-// Load the database.
-$new_db = false;
-if (!file_exists(config::$database_path)) {
-  echo "Database does not exist at '" . config::$database_path . "'. Creating.\n";
-  $new_db = true;
-}
-$database_ = new \PDO('sqlite:' . config::$database_path);
-
-if ($new_db) {
-  InitDatabase($database_);
+  public /*bool*/ function RecordDownload(Episode $episode)
+  {}
 }
