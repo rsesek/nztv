@@ -26,3 +26,6 @@ interface Provider
   public /*bool*/ function DownloadEpisode(Episode $episode,
                                            /*string*/ $destination);
 }
+
+class DownloadException extends \Exception
+{}

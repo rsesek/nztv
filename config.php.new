@@ -24,11 +24,12 @@ class config
   public static $provider = 'Newzbin';
 
   // Newzbin {
-    public static $newzbin_user    = 'nzb_user';
-    public static $newzbin_password = 'nzb_pass';
+    public static $newzbin_user     = '';
+    public static $newzbin_password = '';
   // }
 
   // NZBMatrix {
+    public static $nzbmatrix_user   = '';
     public static $nzbmatrix_apikey = '';
   // }
 
