@@ -61,20 +61,6 @@ function GetShowFromName($name)
   return $query->fetchObject()->show_id;
 }
 
-function CreateCURLHandler($url, $return = true)
-{
-  $rfp = curl_init($url);
-  curl_setopt($rfp, CURLOPT_USERPWD, config::$newzbin_user . ':' . config::$newzbin_password);
-  curl_setopt($rfp, CURLOPT_RETURNTRANSFER, $return);
-  return $rfp;
-}
-
-function TokenizeTitle($title)
-{
-  preg_match('/([0-9]+)x([0-9]+)/', $title, $matches);
-  return array(intval($matches[1]), intval($matches[2]));
-}
-
 const LOG_ERR = '! ERROR';
 const LOG_MSG = 'Message';
 const LOG_WRN = 'WARNING';

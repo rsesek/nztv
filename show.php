@@ -17,32 +17,34 @@
 
 namespace nztv;
 
-// This file imports functions and sets up the database. Standard
-// initialization stuff, ya know?
+require_once PHALANX_ROOT . '/data/model.php';
 
-define('PHALANX_ROOT', getcwd() . '/phalanx');
+class Show extends \phalanx\data\Model
+{
+  // phalanx\base\Struct
+  protected $fields = array(
+    'show_id',  /*int,serial*/
+    'name',  /*string*/
+    'search_url',  /*string*/
+    'last_check',  /*time_t*/
+    'last_season',  /*int*/
+    'last_episode',  /*int*/
+  );
 
-require './book_keeper.php';
-require './config.php';
-require './episode.php';
-require './functions.php';
-require './provider.php';
-require './show.php';
+  // phalanx\data\Model
+  protected $table = 'shows';
+  protected $condition = 'show_id = :show_id';
+  protected $primary_key = 'show_id';
 
-// Don't need the name of the program.
-array_shift($argv);
-$argc--;
-
-// Load the database.
-$new_db = false;
-if (!file_exists(\config::$database_path)) {
-  echo "Database does not exist at '" . \config::$database_path . "'. Creating.\n";
-  $new_db = true;
+  static public /*array[Show]*/ FetchAll()
+  {
+    $shows = array();
+    $query = $database_->query("SELECT * FROM shows");
+    while ($show = $shows->FetchArray()) {
+      $obj = new Show();
+      $obj->SetFrom($show);
+      $shows[] = $obj;
+    }
+    return $shows;
+  }
 }
-$database_ = new \PDO('sqlite:' . \config::$database_path);
-
-if ($new_db) {
-  InitDatabase($database_);
-}
-
-\phalanx\data\Model::set_db($database_);

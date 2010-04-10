@@ -22,9 +22,31 @@ namespace nztv;
 // of shows to download, query parameters, and last-retrieved information.
 class BookKeeper
 {
-  public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
-  {}
+  protected $database;
 
-  public /*bool*/ function RecordDownload(Episode $episode)
-  {}
+  public function __construct(\PDO $db)
+  {
+    $this->database = $db;
+  }
+
+  public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
+  {
+    $show = $episode->show();
+    return ($episode->season >= $show->last_season ||
+        ($episode->season == $show->last_season &&
+            $episode->episode > $show->last_episode))
+  }
+
+  public function RecordDownload(Episode $episode)
+  {
+    $episode->Insert();
+    $show = $episode->show();
+
+    // If this is the next episode, update the |last_episode|.
+    if ($episode->season == $show->last_season &&
+        $episode->episode-1 == $show->last_episode) {
+      $episode->show()->last_episode = $episode->episode;
+      $episode->show()->Update();
+    }
+  }
 }

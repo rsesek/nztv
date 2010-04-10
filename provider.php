@@ -20,7 +20,7 @@ namespace nztv;
 interface Provider
 {
   public /*array[Episode]*/ function SearchForShow(Show $show);
-  public /*string*/ function TokenizeTitle();
+  public function TokenizeTitle(Episode $episode);
 
   // Throws DownloadException.
   public /*bool*/ function DownloadEpisode(Episode $episode,
