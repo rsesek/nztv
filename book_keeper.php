@@ -22,13 +22,6 @@ namespace nztv;
 // of shows to download, query parameters, and last-retrieved information.
 class BookKeeper
 {
-  protected $database;
-
-  public function __construct(\PDO $db)
-  {
-    $this->database = $db;
-  }
-
   public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
   {
     $show = $episode->show();

@@ -71,3 +71,11 @@ function LogMessage($msg, $level = LOG_MSG)
   fwrite($fp, "[$date] $level: $msg\n");
   fclose($fp);
 }
+
+function GetProvider()
+{
+  $path = './provider_' . strtolower(\config::$provider) . '.php';
+  require $path;
+  $name = 'nztv\Provider' . \config::$provider;
+  return new $name();
+}

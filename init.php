@@ -22,8 +22,9 @@ namespace nztv;
 
 define('PHALANX_ROOT', getcwd() . '/phalanx');
 
-require './book_keeper.php';
 require './config.php';
+
+require './book_keeper.php';
 require './episode.php';
 require './functions.php';
 require './provider.php';

@@ -17,12 +17,12 @@
 
 namespace nztv;
 
-public ProviderNewzbin implements Provider
+class ProviderNewzbin implements Provider //,
 {
   public /*array[Episode]*/ function SearchForShow(Show $show)
   {
-    $rfp = curl_init($url);
-    curl_setopt($rfp, CURLOPT_USERPWD, config::$newzbin_user . ':' . config::$newzbin_password);
+    $rfp = curl_init($show->search_url);
+    curl_setopt($rfp, CURLOPT_USERPWD, \config::$newzbin_user . ':' . \config::$newzbin_password);
     curl_setopt($rfp, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($rfp);
     curl_close($rfp);
@@ -60,7 +60,7 @@ public ProviderNewzbin implements Provider
     $fp = fopen($destination, 'w');
     $nzb_fp = curl_init('http://www.newzbin.com/api/dnzb/');
     curl_setopt($nzb_fp, CURLOPT_POST, true);
-    curl_setopt($nzb_fp, CURLOPT_POSTFIELDS, 'username=' . config::$newzbin_user . '&password=' . config::$newzbin_password . '&reportid=' . $episode->nzbid);
+    curl_setopt($nzb_fp, CURLOPT_POSTFIELDS, 'username=' . \config::$newzbin_user . '&password=' . \config::$newzbin_password . '&reportid=' . $episode->nzbid);
     curl_setopt($nzb_fp, CURLOPT_FILE, $fp);
     if (!curl_exec($nzb_fp)) {
       curl_close($nzb_fp);

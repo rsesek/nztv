@@ -25,8 +25,7 @@ $path = dirname(__FILE__);
 chdir($path);
 require './init.php';
 
-$keeper = new BookKeeper($database_);
-
+$keeper = new BookKeeper();
 $provider = GetProvider();
 
 $shows = Show::FetchAll();

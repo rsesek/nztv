@@ -20,9 +20,17 @@ class config
   // The path to the NZTV database.
   public static $database_path = '/path/to/nztv.db';
 
-  // Newzbin username and password.
-  public static $newzbin_user    = 'nzb_user';
-  public static $newzbin_password = 'nzb_pass';
+  // The provider to use. This is the name of the class.
+  public static $provider = 'Newzbin';
+
+  // Newzbin {
+    public static $newzbin_user    = 'nzb_user';
+    public static $newzbin_password = 'nzb_pass';
+  // }
+
+  // NZBMatrix {
+    public static $nzbmatrix_apikey = '';
+  // }
 
   // The destination of Newzbin files.
   public static $nzb_output_dir = '/path/to/download/watcher/dir';

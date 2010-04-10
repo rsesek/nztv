@@ -39,8 +39,8 @@ class Show extends \phalanx\data\Model
   static public /*array[Show]*/ function FetchAll()
   {
     $shows = array();
-    $query = $database_->query("SELECT * FROM shows");
-    while ($show = $shows->FetchArray()) {
+    $query = self::db()->Query("SELECT * FROM shows");
+    while ($show = $query->Fetch()) {
       $obj = new Show();
       $obj->SetFrom($show);
       $shows[] = $obj;
