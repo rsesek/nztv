@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 // NZTV
-// Copyright (c) 2009 Blue Static
+// Copyright (c) 2010 Blue Static
 // Authored by Robert Sesek <rsesek@bluestatic.org>
 // 
 // This program is free software: you can redistribute it and/or modify it
