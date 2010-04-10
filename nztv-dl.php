@@ -46,7 +46,7 @@ foreach ($shows as $show) {
       continue;
     }
 
-    $file_name = config::$nzb_output_dir . '/' . $episode->nzbid . '_' . $episode->title . '.nzb';
+    $file_name = \config::$nzb_output_dir . '/' . $episode->nzbid . '_' . $episode->title . '.nzb';
     try {
       $provider->DownloadEpisode($episode, $file_name);
     } catch (DownloadException $e) {

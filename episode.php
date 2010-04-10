@@ -49,11 +49,12 @@ class Episode extends \phalanx\data\Model
 
   public /*bool*/ function IsAlreadyDownloaded()
   {
-    $ep = new Episode(array(
-      'show_id' => $this->show()->show_id,
-      'season'  => $this->season,
-      'episode' => $this->episode
-    ));
+    $ep = new Episode();
+    $ep->set_condition('show_id = :show_id AND season = :season AND episode = :episode');
+    $ep->show_id = $this->show()->show_id;
+    $ep->season  = $this->season;
+    $ep->episode = $this->episode;
+
     try {
       $result = $ep->Fetch();
       return ($result != NULL);
