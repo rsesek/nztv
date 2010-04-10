@@ -22,6 +22,9 @@ namespace nztv;
 
 require './init.php';
 
+if (!isset($argv[0]))
+  Fatal("Commands: add-show set-episode set-url remove-show");
+
 switch ($argv[0])
 {
   // Add show takes the format of <name> <season>x<episode>
