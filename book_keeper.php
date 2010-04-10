@@ -34,7 +34,7 @@ class BookKeeper
     $show = $episode->show();
     return ($episode->season >= $show->last_season ||
         ($episode->season == $show->last_season &&
-            $episode->episode > $show->last_episode))
+            $episode->episode > $show->last_episode));
   }
 
   public function RecordDownload(Episode $episode)

@@ -36,7 +36,7 @@ class Show extends \phalanx\data\Model
   protected $condition = 'show_id = :show_id';
   protected $primary_key = 'show_id';
 
-  static public /*array[Show]*/ FetchAll()
+  static public /*array[Show]*/ function FetchAll()
   {
     $shows = array();
     $query = $database_->query("SELECT * FROM shows");
