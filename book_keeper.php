@@ -20,7 +20,7 @@ namespace nztv;
 // This class keeps track of two things: (1) What we have downloaded in the
 // past, with specific references to title names and NZB-site ID. (2) A list
 // of shows to download, query parameters, and last-retrieved information.
-class Bookeeper
+class BookKeeper
 {
   public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
   {}
