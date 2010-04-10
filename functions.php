@@ -38,7 +38,7 @@ function InitDatabase(\PDO $db)
 		);
 	");
 	assert($stmt);
-	
+
 	$stmt = $db->query("
 		CREATE TABLE downloads (
 			nzbid integer PRIMARY KEY,
@@ -55,7 +55,7 @@ function InitDatabase(\PDO $db)
 function GetShowFromName($name)
 {
 	global $database_;
-	
+
 	$query = $database_->prepare("SELECT * FROM shows WHERE name = ?");
 	$result = $query->execute(array($name));
 	return $query->fetchObject()->show_id;

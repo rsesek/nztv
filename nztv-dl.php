@@ -29,27 +29,27 @@ $shows = $database_->query("SELECT * FROM shows");
 while ($show = $shows->fetchObject())
 {
 	LogMessage("Beginning search for {$show->name}");
-	
+
 	$rfp = CreateCURLHandler($show->search_url);
 	$result = curl_exec($rfp);
 	curl_close($rfp);
-	
+
 	$results = simplexml_load_string($result);
 	foreach ($results->entry as $entry)
 	{
 		$nzb_url = $entry->link[1]['href'];
 		list($season, $episode) = TokenizeTitle($entry->title);
-		
+
 		preg_match('#/post/([0-9]+)/nzb#', $nzb_url, $matches);
 		$nzb_id = $matches[1];
-		
+
 		// Skip this episode if it's too old.
 		if ($season < $show->last_season || ($season == $show->last_season && $episode <= $show->last_episode))
 		{
 			LogMessage("Skipping #$nzb_id '{$entry->title}' because it is too old");
 			continue;
 		}
-		
+
 		$other_eps = $database_->prepare("SELECT * FROM downloads WHERE show_id = ? AND season = ? AND episode = ?");
 		$other_eps->execute(array($show->show_id, $season, $episode));
 		// We've already downloaded this episode.
@@ -58,7 +58,7 @@ while ($show = $shows->fetchObject())
 			LogMessage("Skipping #$nzb_id '{$entry->title}' because it has been downloaded previously");
 			continue;
 		}
-		
+
 		$file_name = config::$nzb_output_dir . '/' . $nzb_id . '_' . $entry->title . '.nzb';
 		$fp = fopen($file_name, 'w');
 		$nzb_fp = curl_init('http://www.newzbin.com/api/dnzb/');
@@ -74,7 +74,7 @@ while ($show = $shows->fetchObject())
 		}
 		curl_close($nzb_fp);
 		fclose($fp);
-		
+
 		// NZB files are never less than 1k, so it's probably a dud. We'll try
 		// on a different execution run.
 		if (filesize($file_name) < 1000)
@@ -82,7 +82,7 @@ while ($show = $shows->fetchObject())
 			LogMessage("Failed to download #$nzb_id '{$entry->title}'. Please run again.", LOG_WRN);
 			continue;
 		}
-		
+
 		// Record the download.
 		$stmt = $database_->prepare("
 			INSERT INTO downloads
@@ -92,7 +92,7 @@ while ($show = $shows->fetchObject())
 		");
 		$stmt->execute(array($nzb_id, $show->show_id, $entry->title, $season, $episode, time()));
 		LogMessage("Downloaded #$nzb_id '{$entry->title}'");
-		
+
 		// If this is the next episode, update the |last_episode|.
 		if ($season == $show->last_season && $episode-1 == $show->last_episode)
 		{

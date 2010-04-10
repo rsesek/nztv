@@ -38,7 +38,7 @@ switch ($argv[0])
 		$stmt = $database_->prepare("INSERT INTO shows (name, last_season, last_episode, search_url) VALUES (?, ?, ?, ?)");
 		$stmt->execute($params);
 	break;
-	
+
 	case 'set-episode':
 		if ($argc != 3)
 			Fatal('set-episode: [name] [season]x[episode]');
@@ -54,7 +54,7 @@ switch ($argv[0])
 		$stmt = $database_->prepare("UPDATE shows SET last_season = ?, last_episode = ? WHERE show_id = ?");
 		$stmt->execute($params);
 	break;
-	
+
 	case 'set-url':
 		if ($argc != 3)
 			Fatal('set-url: [name] [search url]');
@@ -64,7 +64,7 @@ switch ($argv[0])
 		$stmt = $database_->prepare("UPDATE shows SET search_url = ? WHERE show_id = ?");
 		$stmt->execute(array($argv[2], $id));
 	break;
-	
+
 	case 'remove-show':
 		if ($argc != 2)
 			Fatal('remove-show: [name]');
