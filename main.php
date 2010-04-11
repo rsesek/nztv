@@ -81,6 +81,8 @@ switch ($argv[0])
     $shows = Show::FetchAll();
     foreach ($shows as $show) {
       $episode = $show->GetLatestEpisode();
+      if (!$episode)
+        continue;  // This show hasn't been downloaded yet.
       if ($episode->season > $show->last_season ||
           ($episode->season == $show->last_season &&
               $episode->episode > $show->last_episode)) {

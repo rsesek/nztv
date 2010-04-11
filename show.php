@@ -70,7 +70,10 @@ class Show extends \phalanx\data\Model
       LIMIT 1
     ");
     $query->Execute(array($this->show_id));
-    $episode = new Episode($query->FetchObject()->nzbid);
+    $data = $query->FetchObject();
+    if (!$data)
+      return NULL;
+    $episode = new Episode($data->nzbid);
     $episode->FetchInto();
     return $episode;
   }
