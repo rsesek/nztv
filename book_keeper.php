@@ -25,7 +25,7 @@ class BookKeeper
   public /*bool*/ function ShouldDownloadEpisode(Episode $episode)
   {
     $show = $episode->show();
-    return ($episode->season >= $show->last_season ||
+    return ($episode->season > $show->last_season ||
         ($episode->season == $show->last_season &&
             $episode->episode > $show->last_episode));
   }
