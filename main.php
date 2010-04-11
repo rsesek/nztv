@@ -62,7 +62,7 @@ switch ($argv[0])
     if ($argc != 3)
       Fatal('set-url: [name] [search url]');
     $show = Show::FetchByName($argv[1]);
-    if (!$id)
+    if (!$show)
       Fatal("Bad show name '$argv[1]");
     $show->search_url = $argv[2];
     $show->Update();
@@ -72,7 +72,7 @@ switch ($argv[0])
     if ($argc != 2)
       Fatal('remove-show: [name]');
     $show = Show::FetchByName($argv[1]);
-    if (!$id)
+    if (!$show)
       Fatal("Bad show name '$argv[1]");
     $show->Delete();
   break;
