@@ -40,7 +40,7 @@ class Show extends \phalanx\data\Model
   {
     $shows = array();
     $query = self::db()->Query("SELECT * FROM shows");
-    while ($show = $query->Fetch()) {
+    while ($show = $query->FetchObject()) {
       $obj = new Show();
       $obj->SetFrom($show);
       $shows[] = $obj;
