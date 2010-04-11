@@ -32,7 +32,8 @@ $shows = Show::FetchAll();
 foreach ($shows as $show) {
   LogMessage("Beginning search for {$show->name}");
 
-  $results = $provider->SearchForShow($show);
+  $results        = $provider->SearchForShow($show);
+  $download_count = 0;
   foreach ($results as $episode) {
     // Skip this episode if it's too old.
     if (!$keeper->ShouldDownloadEpisode($episode)) {
@@ -67,5 +68,12 @@ foreach ($shows as $show) {
 
     $keeper->RecordDownload($episode);
     LogMessage("Downloaded #{$episode->nzbid} '{$episode->title}'");
+
+    ++$download_count;
+    if ($download_count % 5 == 0)
+      sleep(60);  // Don't hit the server up too often.
   }
+
+  if ($download_count > 0)
+    sleep(60);  // If we downloaded anything, give the server a rest.
 }

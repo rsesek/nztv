@@ -67,7 +67,6 @@ class ProviderNZBMatrix implements Provider //,
     }
     curl_close($nzb_fp);
     fclose($fp);
-    sleep(30);
   }
 
   protected /*string*/ function _AuthParams()
