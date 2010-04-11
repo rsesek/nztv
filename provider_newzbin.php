@@ -35,7 +35,7 @@ class ProviderNewzbin implements Provider //,
       preg_match('#/post/([0-9]+)/nzb#', $nzb_url, $matches);
       $nzb_id = $matches[1];
 
-      $episode = new Episode($nzb_id);
+      $episode = new Episode(array('nzbid' => $nzb_id));
       $episode->show_id = $show->show_id;
       $episode->title   = $entry->title;
       $this->TokenizeTitle($episode);

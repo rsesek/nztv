@@ -34,7 +34,7 @@ class Episode extends \phalanx\data\Model
   // phalanx\data\Model
   protected $table = 'downloads';
   protected $condition = 'nzbid = :nzbid';
-  protected $primary_key = 'nzbid';
+  protected $primary_key = array('nzbid');
 
   protected /*Show*/ $show = NULL;
 

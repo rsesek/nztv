@@ -73,7 +73,7 @@ class Show extends \phalanx\data\Model
     $data = $query->FetchObject();
     if (!$data)
       return NULL;
-    $episode = new Episode($data->nzbid);
+    $episode = new Episode(array('nzbid' => $data->nzbid));
     $episode->FetchInto();
     return $episode;
   }
