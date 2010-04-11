@@ -47,4 +47,17 @@ class Show extends \phalanx\data\Model
     }
     return $shows;
   }
+
+  static public /*Show*/ function FetchByName(/*string*/ $name)
+  {
+    $show = new Show();
+    $show->set_condition('name = :name');
+    $show->name = $name;
+    try {
+      $show->FetchInto();
+      return $show;
+    } catch (\phalanx\data\ModelException $e) {
+      return NULL;
+    }
+  }
 }

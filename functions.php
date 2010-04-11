@@ -52,15 +52,6 @@ function InitDatabase(\PDO $db)
   assert($stmt);
 }
 
-function GetShowFromName($name)
-{
-  global $database_;
-
-  $query = $database_->prepare("SELECT * FROM shows WHERE name = ?");
-  $result = $query->execute(array($name));
-  return $query->fetchObject()->show_id;
-}
-
 const LOG_ERR = '! ERROR';
 const LOG_MSG = 'Message';
 const LOG_WRN = 'WARNING';
