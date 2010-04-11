@@ -76,4 +76,26 @@ switch ($argv[0])
       Fatal("Bad show name '$argv[1]");
     $show->Delete();
   break;
+
+  case 'update-records':
+    $shows = Show::FetchAll();
+    foreach ($shows as $show) {
+      $episode = $show->GetLatestEpisode();
+      if ($episode->season > $show->last_season ||
+          ($episode->season == $show->last_season &&
+              $episode->episode > $show->last_episode)) {
+        print("{$show->name} has {$show->last_season}x{$show->last_episode} as latest," .
+              " but most recent download is {$episode->season}x{$episode->episode}. Update" .
+              " [Y/n]? ");
+        $fp = fopen('php://stdin', 'r');
+        $c  = fgetc($fp);
+        fclose($fp);
+        if (strtolower($c) == 'y') {
+          $show->last_season  = $episode->season;
+          $show->last_episode = $episode->episode;
+          $show->Update();
+        }
+      }
+    }
+  break;
 }

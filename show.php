@@ -60,4 +60,18 @@ class Show extends \phalanx\data\Model
       return NULL;
     }
   }
+
+  public /*Episode*/ function GetLatestEpisode()
+  {
+    $query = self::db()->Prepare("
+      SELECT nzbid FROM downloads
+      WHERE show_id = ?
+      ORDER BY season DESC, episode DESC
+      LIMIT 1
+    ");
+    $query->Execute(array($this->show_id));
+    $episode = new Episode($query->FetchObject()->nzbid);
+    $episode->FetchInto();
+    return $episode;
+  }
 }
