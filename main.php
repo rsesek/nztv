@@ -49,7 +49,7 @@ switch ($argv[0])
       Fatal('set-episode: [name] [season]x[episode]');
     $show = Show::FetchByName($argv[1]);
     if (!$show)
-      Fatal("Bad show name '$argv[1]");
+      Fatal("Bad show name '$argv[1]'");
     $epnum = explode('x', $argv[2]);
     if (count($epnum) != 2)
       Fatal("Invalid episode number $argv[2]");
@@ -63,7 +63,7 @@ switch ($argv[0])
       Fatal('set-url: [name] [search url]');
     $show = Show::FetchByName($argv[1]);
     if (!$show)
-      Fatal("Bad show name '$argv[1]");
+      Fatal("Bad show name '$argv[1]'");
     $show->search_url = $argv[2];
     $show->Update();
   break;
@@ -73,7 +73,7 @@ switch ($argv[0])
       Fatal('remove-show: [name]');
     $show = Show::FetchByName($argv[1]);
     if (!$show)
-      Fatal("Bad show name '$argv[1]");
+      Fatal("Bad show name '$argv[1]'");
     $show->Delete();
   break;
 
@@ -99,5 +99,16 @@ switch ($argv[0])
         }
       }
     }
+  break;
+
+  case 'bump':
+    if ($argc != 2)
+      Fatal("bump: [name]");
+    $show = Show::FetchByName($argv[1]);
+    if (!$show)
+      Fatal("Bad show name '$argv[1]'");
+    $show->last_season++;
+    $show->last_episode = 0;
+    $show->Update();
   break;
 }
