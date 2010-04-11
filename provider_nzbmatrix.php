@@ -29,7 +29,7 @@ class ProviderNZBMatrix implements Provider //,
     $episodes = array();
 
     $results = simplexml_load_string($result);
-    foreach ($results->entry as $entry) {
+    foreach ($results->channel->item as $entry) {
       $nzb_url = $entry->link;
       preg_match('/id=([0-9]+)/', $nzb_url, $matches);
       $nzb_id = $matches[1];
@@ -46,6 +46,8 @@ class ProviderNZBMatrix implements Provider //,
   public function TokenizeTitle(Episode $episode)
   {
     preg_match('/S([0-9]+)E([0-9]+)/', $episode->title, $matches);
+    if (count($matches) < 3)
+      return;
     $episode->season  = intval($matches[1]);
     $episode->episode = intval($matches[2]);
   }
@@ -65,6 +67,7 @@ class ProviderNZBMatrix implements Provider //,
     }
     curl_close($nzb_fp);
     fclose($fp);
+    sleep(30);
   }
 
   protected /*string*/ function _AuthParams()

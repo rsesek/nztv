@@ -59,6 +59,7 @@ foreach ($shows as $show) {
     // on a different execution run.
     if (filesize($file_name) < 1000) {
       LogMessage("Failed to download #{$episode->nzbid} '{$episode->title}'. Please run again.", LOG_WRN);
+      unlink($file_name);
       continue;
     }
 

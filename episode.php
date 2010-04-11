@@ -23,7 +23,7 @@ class Episode extends \phalanx\data\Model
 {
   // phalanx\base\Struct
   protected $fields = array(
-    'nzbid',  /*int,serial*/
+    'nzbid',  /*int*/
     'show_id',  /*int*/
     'title',  /*string*/
     'season',  /*int*/
