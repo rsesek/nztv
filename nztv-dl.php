@@ -50,7 +50,7 @@ foreach ($shows as $show) {
     $title     = str_replace(array('/', ':'), '_', $episode->title);
     $file_name = \config::$nzb_output_dir . '/' . $episode->nzbid . '_' . $title . '.nzb';
     if ($provider instanceof ProviderNZBMatrix)
-      $file_name .= '.zip';  // NZBMatrix returns ZIP files rather than raw NZBs.
+      $file_name .= '.gz';  // NZBMatrix returns gZIP files rather than raw NZBs.
     try {
       $provider->DownloadEpisode($episode, $file_name);
     } catch (DownloadException $e) {
