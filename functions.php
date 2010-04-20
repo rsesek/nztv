@@ -70,3 +70,8 @@ function GetProvider()
   $name = 'nztv\Provider' . \config::$provider;
   return new $name();
 }
+
+function SafeFileName($str)
+{
+  return str_replace(array('/', ':'), '_', $str);
+}

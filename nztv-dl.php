@@ -47,7 +47,7 @@ foreach ($shows as $show) {
       continue;
     }
 
-    $title     = str_replace(array('/', ':'), '_', $episode->title);
+    $title     = SafeFileName($episode->title);
     $file_name = \config::$nzb_output_dir . '/' . $episode->nzbid . '_' . $title . '.nzb';
     if ($provider instanceof ProviderNZBMatrix)
       $file_name .= '.gz';  // NZBMatrix returns gZIP files rather than raw NZBs.
