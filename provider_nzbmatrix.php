@@ -57,7 +57,7 @@ class ProviderNZBMatrix implements Provider //,
                                   /*string*/ $destination)
   {
     $fp = fopen($destination, 'w');
-    $nzb_fp = curl_init('http://nzbmatrix.com/api-nzb-download.php?id=' . $episode->nzbid . $this->_AuthParams());
+    $nzb_fp = curl_init('http://api.nzbmatrix.com/v1.1/download.php?id=' . $episode->nzbid . $this->_AuthParams());
     curl_setopt($nzb_fp, CURLOPT_POST, true);
     curl_setopt($nzb_fp, CURLOPT_FILE, $fp);
     if (!curl_exec($nzb_fp)) {
