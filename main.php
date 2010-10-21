@@ -17,33 +17,47 @@
 
 namespace nztv;
 
-// This is the heart of the command-line interface.
-// TODO(rsesek): Refactor this mess.
+use \phalanx\events\CLIDispatcher as CLIDispatcher;
+use \phalanx\events\CLIOutputHandler as CLIOutputHandler;
+use \phalanx\events\EventPump as EventPump;
 
 require './init.php';
 
-if (!isset($argv[0]))
+require_once PHALANX_ROOT . '/base/functions.php';
+require_once PHALANX_ROOT . '/events/event_pump.php';
+require_once PHALANX_ROOT . '/events/cli_dispatcher.php';
+require_once PHALANX_ROOT . '/events/cli_output_handler.php';
+
+require './events/error_event.php';
+require './events/message_event.php';
+
+$dispatcher = new CLIDispatcher($argv);
+$dispatcher->set_event_loader(function($name) {
+  $name = str_replace('-', '_', $name);
+  $path = "./events/{$name}_event.php";
+  if (!file_exists($path)) {
+    EventPump::Pump()->RaiseEvent(new ErrorEvent('Could not load file for event ' . $name));
+    return;
+  }
+  require_once $path;
+  return '\nztv\\' . \phalanx\base\UnderscoreToCamelCase($name) . 'Event';
+});
+
+$output_handler = new CLIOutputHandler();
+EventPump::Pump()->set_output_handler($output_handler);
+
+if (!isset($argv[1]))
   Fatal("Commands: add-show set-episode set-url remove-show update-records");
+
+// Process the inital event.
+$dispatcher->Start();
+
+// Stop the pump now that all events have been run.
+EventPump::Pump()->StopPump();
+exit;
 
 switch ($argv[0])
 {
-  // Add show takes the format of <name> <season>x<episode>
-  case 'add-show':
-    if ($argc != 4)
-      Fatal('add-show: [name] [season]x[episode] [search url]');
-    $show = new Show();
-    $show->name       = $argv[1];
-    $show->search_url = $argv[3];
-
-    $epnum = explode('x', $argv[2]);
-    if (count($epnum) != 2)
-      Fatal("Invalid episode number $argv[2]");
-    $show->last_season  = $epnum[0];
-    $show->last_episode = $epnum[1];
-
-    $show->Insert();
-  break;
-
   case 'set-episode':
     if ($argc != 3)
       Fatal('set-episode: [name] [season]x[episode]');

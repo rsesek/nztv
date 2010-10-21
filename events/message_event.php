@@ -17,29 +17,34 @@
 
 namespace nztv;
 
-// This file imports functions and sets up the database. Standard
-// initialization stuff, ya know?
+use \phalanx\events\EventPump as EventPump;
 
-define('PHALANX_ROOT', getcwd() . '/phalanx');
+require_once PHALANX_ROOT . '/events/event.php';
 
-require './config.php';
+class MessageEvent extends \phalanx\events\Event
+{
+  protected $message = NULL;
+  public function message() { return $this->message; }
+  
+  static public function InputList()
+  {
+    return array(
+      'message'
+    );
+  }
 
-require './book_keeper.php';
-require './episode.php';
-require './functions.php';
-require './provider.php';
-require './show.php';
+  static public function OutputList()
+  {
+    return array('message');
+  }
 
-// Load the database.
-$new_db = false;
-if (!file_exists(\config::$database_path)) {
-  echo "Database does not exist at '" . \config::$database_path . "'. Creating.\n";
-  $new_db = true;
+  public function __construct($message)
+  {
+    $this->message = $message;
+  }
+
+  public function Fire()
+  {
+    // Do nothing.
+  }
 }
-$database_ = new \PDO('sqlite:' . \config::$database_path);
-
-if ($new_db) {
-  InitDatabase($database_);
-}
-
-\phalanx\data\Model::set_db($database_);
