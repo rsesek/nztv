@@ -17,43 +17,43 @@
 
 namespace nztv;
 
-use \phalanx\events\CLIDispatcher as CLIDispatcher;
-use \phalanx\events\CLIOutputHandler as CLIOutputHandler;
-use \phalanx\events\EventPump as EventPump;
+use \phalanx\tasks\CLIDispatcher as CLIDispatcher;
+use \phalanx\tasks\CLIOutputHandler as CLIOutputHandler;
+use \phalanx\tasks\TaskPump as TaskPump;
 
 require './init.php';
 
 require_once PHALANX_ROOT . '/base/functions.php';
-require_once PHALANX_ROOT . '/events/event_pump.php';
-require_once PHALANX_ROOT . '/events/cli_dispatcher.php';
-require_once PHALANX_ROOT . '/events/cli_output_handler.php';
+require_once PHALANX_ROOT . '/tasks/task_pump.php';
+require_once PHALANX_ROOT . '/tasks/cli_dispatcher.php';
+require_once PHALANX_ROOT . '/tasks/cli_output_handler.php';
 
-require './events/error_event.php';
-require './events/message_event.php';
+require './tasks/error.php';
+require './tasks/message.php';
 
 $dispatcher = new CLIDispatcher($argv);
-$dispatcher->set_event_loader(function($name) {
+$dispatcher->set_task_loader(function($name) {
   $name = str_replace('-', '_', $name);
-  $path = "./events/{$name}_event.php";
+  $path = "./tasks/{$name}.php";
   if (!file_exists($path)) {
-    EventPump::Pump()->RaiseEvent(new ErrorEvent('Could not load file for event ' . $name));
+    TaskPump::Pump()->RunTask(new ErrorTask('Could not load file for task ' . $name));
     return;
   }
   require_once $path;
-  return '\nztv\\' . \phalanx\base\UnderscoreToCamelCase($name) . 'Event';
+  return '\nztv\\' . \phalanx\base\UnderscoreToCamelCase($name) . 'Task';
 });
 
 $output_handler = new CLIOutputHandler();
-EventPump::Pump()->set_output_handler($output_handler);
+TaskPump::Pump()->set_output_handler($output_handler);
 
 if (!isset($argv[1]))
   Fatal("Commands: add-show set-episode set-url remove-show update-records");
 
-// Process the inital event.
+// Process the inital task.
 $dispatcher->Start();
 
-// Stop the pump now that all events have been run.
-EventPump::Pump()->StopPump();
+// Stop the pump now that all tasks have been run.
+TaskPump::Pump()->StopPump();
 exit;
 
 switch ($argv[0])

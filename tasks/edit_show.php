@@ -17,11 +17,11 @@
 
 namespace nztv;
 
-use \phalanx\events\EventPump as EventPump;
+use \phalanx\tasks\TaskPump as TaskPump;
 
-require_once PHALANX_ROOT . '/events/event.php';
+require_once PHALANX_ROOT . '/tasks/task.php';
 
-class EditShowEvent extends \phalanx\events\Event
+class EditShowTask extends \phalanx\tasks\Task
 {
   static public function InputList()
   {
@@ -41,14 +41,14 @@ class EditShowEvent extends \phalanx\events\Event
   {
     $show = Show::FetchByName($this->input->name);
     if (!$show) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('Could not find show named ' . $this->input->name));
+      TaskPump::Pump()->QueueTask(new ErrorTask('Could not find show named ' . $this->input->name));
       return;
     }
 
     if ($this->input->episode) {
       @list($season, $episode) = explode('x', $this->input->episode);
       if (!$season || !$episode) {
-        EventPump::Pump()->PostEvent(new ErrorEvent('Episode format is invalid (SxE).'));
+        TaskPump::Pump()->QueueTask(new ErrorTask('Episode format is invalid (SxE).'));
         return;
       }
       $show->last_season  = $season;
@@ -62,9 +62,9 @@ class EditShowEvent extends \phalanx\events\Event
     try {
       $show->Update();
     } catch (\phalanx\data\ModelException $e) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('An error occurred while adding the show.'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('An error occurred while adding the show.'));
       return;
     }
-    EventPump::Pump()->PostEvent(new MessageEvent('Updated ' . $show->name));
+    TaskPump::Pump()->QueueTask(new MessageTask('Updated ' . $show->name));
   }
 }

@@ -17,11 +17,11 @@
 
 namespace nztv;
 
-use \phalanx\events\EventPump as EventPump;
+use \phalanx\tasks\TaskPump as TaskPump;
 
-require_once PHALANX_ROOT . '/events/event.php';
+require_once PHALANX_ROOT . '/tasks/task.php';
 
-class ErrorEvent extends \phalanx\events\Event
+class MessageTask extends \phalanx\tasks\Task
 {
   protected $message = NULL;
   public function message() { return $this->message; }
@@ -45,6 +45,6 @@ class ErrorEvent extends \phalanx\events\Event
 
   public function Fire()
   {
-    EventPump::Pump()->Terminate($this->message . "\n");
+    // Do nothing.
   }
 }

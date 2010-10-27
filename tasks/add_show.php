@@ -17,11 +17,11 @@
 
 namespace nztv;
 
-use \phalanx\events\EventPump as EventPump;
+use \phalanx\tasks\TaskPump as TaskPump;
 
-require_once PHALANX_ROOT . '/events/event.php';
+require_once PHALANX_ROOT . '/tasks/task.php';
 
-class AddShowEvent extends \phalanx\events\Event
+class AddShowTask extends \phalanx\tasks\Task
 {
   static public function InputList()
   {
@@ -40,28 +40,28 @@ class AddShowEvent extends \phalanx\events\Event
   public function WillFire()
   {
     if ($this->input->Count() != 3) {
-      EventPump::Pump()->RaiseEvent(new ErrorEvent('add-show: [name] [season]x[episode] [url]'));
+      TaskPump::Pump()->RunTask(new ErrorTask('add-show: [name] [season]x[episode] [url]'));
     }
   }
 
   public function Fire()
   {
     if (!$this->input->name) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('Name is required.'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('Name is required.'));
       return;
     }
     if (!$this->input->episode) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('Episode (SxE) is required.'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('Episode (SxE) is required.'));
       return;
     }
     if (!$this->input->feed_url) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('Feed URL is required.'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('Feed URL is required.'));
       return;
     }
 
     @list($season, $episode) = explode('x', $this->input->episode);
     if (!$season || !$episode) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('Episode format is invalid (SxE).'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('Episode format is invalid (SxE).'));
       return;
     }
 
@@ -73,10 +73,10 @@ class AddShowEvent extends \phalanx\events\Event
     try {
       $show->Insert();
     } catch (\phalanx\data\ModelException $e) {
-      EventPump::Pump()->PostEvent(new ErrorEvent('An error occurred while adding the show.'));
+      TaskPump::Pump()->QueueTask(new ErrorTask('An error occurred while adding the show.'));
       return;
     }
     $str = 'Added ' . $show->name . ' at ' . $show->last_season . 'x' . $show->last_episode;
-    EventPump::Pump()->PostEvent(new MessageEvent($str));
+    TaskPump::Pump()->QueueTask(new MessageTask($str));
   }
 }
