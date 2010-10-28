@@ -81,15 +81,4 @@ switch ($argv[0])
       }
     }
   break;
-
-  case 'bump':
-    if ($argc != 2)
-      Fatal("bump: [name]");
-    $show = Show::FetchByName($argv[1]);
-    if (!$show)
-      Fatal("Bad show name '$argv[1]'");
-    $show->last_season++;
-    $show->last_episode = 0;
-    $show->Update();
-  break;
 }
