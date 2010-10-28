@@ -58,15 +58,6 @@ exit;
 
 switch ($argv[0])
 {
-  case 'remove-show':
-    if ($argc != 2)
-      Fatal('remove-show: [name]');
-    $show = Show::FetchByName($argv[1]);
-    if (!$show)
-      Fatal("Bad show name '$argv[1]'");
-    $show->Delete();
-  break;
-
   case 'update-records':
     $shows = Show::FetchAll();
     foreach ($shows as $show) {
