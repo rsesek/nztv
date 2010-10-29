@@ -21,6 +21,7 @@ interface Provider
 {
   public /*array[Episode]*/ function SearchForShow(Show $show);
   public function TokenizeTitle(Episode $episode);
+  public function RateLimitDownload(Episode $episode);
 
   // Throws DownloadException.
   public /*bool*/ function DownloadEpisode(Episode $episode,

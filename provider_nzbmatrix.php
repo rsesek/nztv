@@ -19,6 +19,12 @@ namespace nztv;
 
 class ProviderNZBMatrix implements Provider //,
 {
+  // The number of episodes downloaded for a given show.
+  protected $download_count = 0;
+
+  // The show_id of the last show downloaded.
+  protected $last_downloaded_show = 0;
+
   public /*array[Episode]*/ function SearchForShow(Show $show)
   {
     $rfp = curl_init($show->search_url . $this->_AuthParams());
@@ -50,6 +56,19 @@ class ProviderNZBMatrix implements Provider //,
       return;
     $episode->season  = intval($matches[1]);
     $episode->episode = intval($matches[2]);
+  }
+
+  public function RateLimitDownload(Episode $episode)
+  {
+    if ($this->last_downloaded_show != $episode->show_id) {
+      if ($this->download_count > 0)
+        sleep(60);  // If we downloaded anything, give the server a rest.
+      $this->download_count       = 0;
+      $this->last_downloaded_show = $episode->show_id;
+    }
+    if ($this->download_count % 5 == 0)
+      sleep(60);  // Don't hit the server up too often.
+    ++$this->download_count;
   }
 
   // Throws DownloadException.

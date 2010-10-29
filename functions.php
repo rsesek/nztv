@@ -66,7 +66,7 @@ function LogMessage($msg, $level = LOG_MSG)
 function GetProvider()
 {
   $path = './provider_' . strtolower(\config::$provider) . '.php';
-  require $path;
+  require_once $path;
   $name = 'nztv\Provider' . \config::$provider;
   return new $name();
 }

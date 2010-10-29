@@ -51,6 +51,11 @@ class ProviderNewzbin implements Provider //,
     $episode->episode = intval($matches[2]);
   }
 
+  public function RateLimitDownload(Episode $episode)
+  {
+    // Newzbin does not have API rate limits.
+  }
+
   // Throws DownloadException.
   public function DownloadEpisode(Episode $episode,
                                   /*string*/ $destination)
