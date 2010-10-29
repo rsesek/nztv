@@ -28,8 +28,8 @@ require_once PHALANX_ROOT . '/tasks/task_pump.php';
 require_once PHALANX_ROOT . '/tasks/cli_dispatcher.php';
 require_once PHALANX_ROOT . '/tasks/cli_output_handler.php';
 
-require './tasks/error.php';
-require './tasks/message.php';
+require './tasks/internal/error.php';
+require './tasks/internal/message.php';
 
 $dispatcher = new CLIDispatcher($argv);
 $dispatcher->set_task_loader(function($name) {
