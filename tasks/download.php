@@ -43,8 +43,7 @@ class DownloadTask extends \phalanx\tasks\Task
     foreach ($shows as $show) {
       LogMessage("Beginning search for {$show->name}");
 
-      $results        = $provider->SearchForShow($show);
-      $download_count = 0;
+      $results = $provider->SearchForShow($show);
       foreach ($results as $episode) {
         // Skip this episode if it's too old.
         if (!$keeper->ShouldDownloadEpisode($episode)) {

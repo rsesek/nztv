@@ -65,10 +65,14 @@ function LogMessage($msg, $level = LOG_MSG)
 
 function GetProvider()
 {
-  $path = './provider_' . strtolower(\config::$provider) . '.php';
-  require_once $path;
-  $name = 'nztv\Provider' . \config::$provider;
-  return new $name();
+  static $provider = NULL;
+  if (!$provider) {
+    $path = './provider_' . strtolower(\config::$provider) . '.php';
+    require_once $path;
+    $name = 'nztv\Provider' . \config::$provider;
+    $provider = new $name();
+  }
+  return $provider;
 }
 
 function SafeFileName($str)
