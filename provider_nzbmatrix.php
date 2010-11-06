@@ -62,7 +62,7 @@ class ProviderNZBMatrix implements Provider //,
   {
     if ($this->last_downloaded_show != $episode->show_id) {
       if ($this->download_count > 0)
-        sleep(60);  // If we downloaded anything, give the server a rest.
+        sleep(5);  // If we downloaded anything, give the server a rest.
       $this->download_count       = 0;
       $this->last_downloaded_show = $episode->show_id;
     }
