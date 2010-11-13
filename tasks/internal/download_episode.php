@@ -46,6 +46,12 @@ class DownloadEpisodeTask extends \phalanx\tasks\Task
     $provider = GetProvider();
     $episode  = $this->episode;
 
+    // We've already downloaded this episode.
+    if ($episode->IsAlreadyDownloaded()) {
+      LogMessage("Skipping #{$episode->nzbid} '{$episode->title}' because it has been downloaded previously");
+      continue;
+    }
+
     $title     = SafeFileName($episode->title);
     $file_name = \config::$nzb_output_dir . '/' . $title . '_' . $episode->nzbid . '.nzb';
     if ($provider instanceof ProviderNZBMatrix)
