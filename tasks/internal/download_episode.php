@@ -49,7 +49,7 @@ class DownloadEpisodeTask extends \phalanx\tasks\Task
     // We've already downloaded this episode.
     if ($episode->IsAlreadyDownloaded()) {
       LogMessage("Skipping #{$episode->nzbid} '{$episode->title}' because it has been downloaded previously");
-      continue;
+      return;
     }
 
     $title     = SafeFileName($episode->title);
