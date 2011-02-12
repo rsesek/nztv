@@ -59,8 +59,8 @@ class AddShowTask extends \phalanx\tasks\Task
       return;
     }
 
-    @list($season, $episode) = explode('x', $this->input->episode);
-    if (!$season || !$episode) {
+    $episode = Episode::SplitEpisodeNumber($this->input->episode);
+    if (!$episode) {
       TaskPump::Pump()->QueueTask(new ErrorTask('Episode format is invalid (SxE).'));
       return;
     }
@@ -68,8 +68,8 @@ class AddShowTask extends \phalanx\tasks\Task
     $show = new Show();
     $show->name         = $this->input->name;
     $show->search_url   = $this->input->feed_url;
-    $show->last_season  = $season;
-    $show->last_episode = $episode;
+    $show->last_season  = $episode[0];
+    $show->last_episode = $episode[1];
     try {
       $show->Insert();
     } catch (\phalanx\data\ModelException $e) {

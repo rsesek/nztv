@@ -62,4 +62,14 @@ class Episode extends \phalanx\data\Model
       return FALSE;
     }
   }
+
+  // Takes a stringified episode number (SSxEE) and returns the 2-Tuple of the
+  // integers. Returns NULL on error.
+  static public function SplitEpisodeNumber($string)
+  {
+    $split = explode('x', $string);
+    if (count($split) != 2)
+      return NULL;
+    return array(intval($split[0]), intval($split[1]));
+  }
 }

@@ -46,13 +46,13 @@ class EditShowTask extends \phalanx\tasks\Task
     }
 
     if ($this->input->episode) {
-      @list($season, $episode) = explode('x', $this->input->episode);
-      if (!$season || !$episode) {
+      $episode = Episode::SplitEpisodeNumber($this->input->episode);
+      if (!$episode) {
         TaskPump::Pump()->QueueTask(new ErrorTask('Episode format is invalid (SxE).'));
         return;
       }
-      $show->last_season  = $season;
-      $show->last_episode = $episode;
+      $show->last_season  = $episode[0];
+      $show->last_episode = $episode[1];
     }
 
     if ($this->input->feed_url) {
