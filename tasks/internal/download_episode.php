@@ -53,7 +53,9 @@ class DownloadEpisodeTask extends \phalanx\tasks\Task
     }
 
     $title     = SafeFileName($episode->title);
-    $file_name = \config::$nzb_output_dir . '/' . $title . '_' . $episode->nzbid . '.nzb';
+    $basename  = $title . '_' . $episode->nzbid . '.nzb';
+    $basename  = \config::DownloadFileCallback($basename);
+    $file_name = \config::$nzb_output_dir . '/' . $basename;
     if ($provider instanceof ProviderNZBMatrix)
       $file_name .= '.gz';  // NZBMatrix returns gZIP files rather than raw NZBs.
     try {

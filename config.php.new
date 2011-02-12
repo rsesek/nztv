@@ -35,4 +35,12 @@ class config
 
   // The destination of Newzbin files.
   public static $nzb_output_dir = '/path/to/download/watcher/dir';
+
+  // Called with the name of a file that will be downloaded. Set this to a
+  // function that returns the name with any desired changes.
+  public static function DownloadFileCallback($name) {
+    return $name;
+    // Categorize for SABnzbd+.
+    // return '{{tv}}' . $name;
+  }
 }
