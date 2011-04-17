@@ -34,7 +34,7 @@ if ($argc == 8 && $argv[7] != 0) {
 
 $directory_name = $argv[1];
 
-define('INVOKE_ACTIONS', FALSE);
+define('INVOKE_ACTIONS', TRUE);
 
 $file_extensions = array(
   '.avi',
