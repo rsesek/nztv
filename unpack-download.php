@@ -75,15 +75,16 @@ function Main($directory_name) {
     if ($file->IsDot())
       continue;
 
-    $extension = strtolower(substr($file->GetFilename(), -4));
+    $filename = $file->GetFilename();
+    $extension = strtolower(substr($filename, -4));
     $pathname = $file->GetPathname();
 
     if (in_array($extension, $file_extensions)) {
       // If this is a movie file, send out a service request to Armadillo to
       // get the full episode title.
-      $new_name = GetNewFilename($file->GetFilename());
+      $new_name = GetNewFilename($filename);
       if (!$new_name)
-        print 'No name for: ' . $file->GetFilename() . "\n";
+        print 'No name for: ' . $filename . "\n";
 
       // Create new fully qualified path.
       $new_path = dirname(realpath($file->GetPath()));
@@ -96,7 +97,7 @@ function Main($directory_name) {
           rename(realpath($pathname), $new_pathname);
       };
     } else if (in_array($extension, $remove_file_extensions) ||
-               $file->GetFilename() == '.DS_Store') {
+               $filename == '.DS_Store') {
       // If these are files we know to be safe to delete, do so with a thunk.
       $actions[] = function() use ($pathname) {
         print 'REMOVE: ' . $pathname . "\n";
