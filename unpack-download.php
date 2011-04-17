@@ -26,12 +26,11 @@
 // 6 - Group that the NZB was posted in e.g. alt.binaries.x
 // 7 - Status of post processing. 0 = OK, 1=failed verification, 2=failed unpack, 3=1+21
 
-/*
-if ($argc <= 7) {
-  print("ERROR: Invalid number of arguments.\n");
+
+if ($argc == 8 && $argv[7] != 0) {
+  print("ERROR: Post processing error.\n");
   exit(1);
 }
-*/
 
 $directory_name = $argv[1];
 
