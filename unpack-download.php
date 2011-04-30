@@ -77,7 +77,7 @@ function Main($directory_name) {
       continue;
 
     $filename = $file->GetFilename();
-    $extension = strtolower(substr($filename, -4));
+    $extension = strtolower(substr($filename, strrpos($filename, '.')));
     $pathname = $file->GetPathname();
 
     if (in_array($extension, $file_extensions)) {
