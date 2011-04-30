@@ -39,6 +39,7 @@ define('INVOKE_ACTIONS', TRUE);
 $file_extensions = array(
   '.avi',
   '.mkv',
+  '.ts',
 );
 
 $remove_file_extensions = array(
@@ -46,6 +47,7 @@ $remove_file_extensions = array(
   '.nzb',
   '.sfv',
   '.srr',
+  '.txt',
 );
 
 function GetNewFilename($filename) {
